@@ -7,12 +7,10 @@ import (
 )
 
 func main() {
-	var (
-		router *gin.Engine
-	)
-
-	router = gin.New()
+	router := gin.New()
 	router.RedirectTrailingSlash = true
+
+	// Attach middlewares to router
 
 	router.GET("/status", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
