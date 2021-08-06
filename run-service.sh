@@ -1,1 +1,1 @@
-go run cmd/server.go -logtostderr=true -alsologtostderr=true -stderrthreshold=ERROR
+go run command/server.go

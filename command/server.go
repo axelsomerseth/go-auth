@@ -1,12 +1,16 @@
 package main
 
 import (
-	"net/http"
+	"github.com/axelsomerseth/go-auth/database"
+	"github.com/axelsomerseth/go-auth/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// Connect database storage.
+	database.Connect()
+
 	router := gin.New()
 	router.RedirectTrailingSlash = true
 
@@ -14,11 +18,7 @@ func main() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	router.GET("/status", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "ok",
-		})
-	})
+	routes.SetRoutes(router)
 
 	router.Run()
 }
