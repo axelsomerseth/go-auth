@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/axelsomerseth/go-auth/models"
 
@@ -11,9 +10,9 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-var DB *gorm.DB
+var db *gorm.DB
 
-func Connect() {
+func Connect() error {
 	var (
 		err        error
 		gormConfig *gorm.Config
@@ -27,16 +26,18 @@ func Connect() {
 	}
 
 	// Open connection.
-	DB, err = gorm.Open(sqlite.Open("/Users/axelsomerseth/GO-AUTH.db"), gormConfig)
+	db, err = gorm.Open(sqlite.Open("/Users/axelsomerseth/GO-AUTH.db"), gormConfig)
 	if err != nil {
-		log.Fatalf("error connecting to the database, due %s", err)
+		return err
 	}
 
 	// Automigrate option
-	err = DB.AutoMigrate(&models.User{})
+	err = db.AutoMigrate(&models.User{})
 	if err != nil {
-		log.Fatalf("cannot automigrate database, due %s", err)
+		return err
 	}
 
-	fmt.Print("database connected")
+	fmt.Printf("database connected: %s \n", db.Migrator().CurrentDatabase())
+
+	return nil
 }

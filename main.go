@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/axelsomerseth/go-auth/database"
 	"github.com/axelsomerseth/go-auth/routes"
 
@@ -9,7 +11,9 @@ import (
 
 func main() {
 	// Connect database storage.
-	database.Connect()
+	if err := database.Connect(); err != nil {
+		log.Fatalf("error trying to connect the database, due %s", err)
+	}
 
 	router := gin.New()
 	router.RedirectTrailingSlash = true
