@@ -1,2 +1,3 @@
+.PHONY: server
 server:
-	docker compose up
+	@docker-compose up
