@@ -15,7 +15,7 @@ func main() {
 
 	appConfig, err := config.Init()
 	if err != nil {
-		log.Fatalf("error trying to set up server configuration and env vars: ", err)
+		log.Fatalf("error trying to set up server configuration and env vars: %s", err)
 	}
 
 	// Connect database storage.
