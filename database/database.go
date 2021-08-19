@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/axelsomerseth/go-auth/internal/config"
 	"github.com/axelsomerseth/go-auth/models"
 
 	postgres "gorm.io/driver/postgres"
@@ -12,11 +13,15 @@ import (
 
 var db *gorm.DB
 
-func Connect(databaseDSN string) error {
+func Connect(cfg *config.Config) error {
 	var (
-		err        error
-		gormConfig *gorm.Config
+		err         error
+		gormConfig  *gorm.Config
+		databaseDSN string
 	)
+
+	databaseDSN = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.Database.Host, cfg.Database.Port, cfg.Database.Username, cfg.Database.Password, cfg.Database.Name)
 
 	// Define gorm configuration.
 	gormConfig = &gorm.Config{
