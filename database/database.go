@@ -5,14 +5,14 @@ import (
 
 	"github.com/axelsomerseth/go-auth/models"
 
-	"gorm.io/driver/sqlite"
+	postgres "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
 
 var db *gorm.DB
 
-func Connect() error {
+func Connect(databaseDSN string) error {
 	var (
 		err        error
 		gormConfig *gorm.Config
@@ -26,7 +26,7 @@ func Connect() error {
 	}
 
 	// Open connection.
-	db, err = gorm.Open(sqlite.Open("/Users/axelsomerseth/GO-AUTH.db"), gormConfig)
+	db, err = gorm.Open(postgres.Open(databaseDSN), gormConfig)
 	if err != nil {
 		return err
 	}
