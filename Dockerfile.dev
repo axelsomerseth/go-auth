@@ -1,0 +1,44 @@
+# Accept the Go version for the image to be set as a build argument.
+# Default to Go 1.13.
+ARG GO_VERSION=1.16
+
+# First stage: build the executable.
+FROM golang:${GO_VERSION}-alpine AS builder
+
+# Add Maintainer info.
+LABEL maintainer="Axel Somerseth Cordova <axelsomerseth@gmail.com>"
+
+# Set proxy environment variable.
+RUN go env -w GOPROXY=direct
+
+# Update the index of available packages (Alpine Linux package management).
+RUN apk update
+# The quickest way to get started with GCC.
+RUN apk add --no-cache build-base
+# Git is required for fetching the dependencies.
+RUN apk add --no-cache git
+# Bash is required for making utilities.
+RUN apk add --no-cache bash
+# Bash is required for making communication with other services.
+RUN apk add --no-cache curl
+# Contains Contains the certificate authorities to allow SSL-based applications to check for the authenticity of SSL connections
+RUN apk add ca-certificates
+
+# Set the working directory outside $GOPATH to enable the support for modules.
+WORKDIR /app
+
+# Fetch dependencies first; they are less susceptible to change on every build
+# and will therefore be cached for speeding up the next build.
+COPY ./go.mod ./go.sum ./
+
+# Download the named Go modules into the module cache.
+RUN go mod download
+
+# Watcher is used for watching .go file changes.
+RUN go get github.com/canthefason/go-watcher 
+RUN go install github.com/canthefason/go-watcher/cmd/watcher
+
+# Expose the port for the server.
+EXPOSE 8080
+
+ENTRYPOINT [ "watcher" ]

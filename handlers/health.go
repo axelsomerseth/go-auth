@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"net/http"
@@ -9,6 +9,7 @@ import (
 // Health check Pattern. Service status.
 func Health(c *gin.Context) {
 
+	// It will return the status of the service.
 	// the status of the connections to the infrastructure services used by the service instance
 	// the status of the host, e.g. disk space
 	// application specific logic

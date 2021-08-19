@@ -3,12 +3,8 @@ module github.com/axelsomerseth/go-auth
 go 1.16
 
 require (
-	github.com/gin-gonic/gin v1.7.3
-	github.com/kr/pretty v0.1.0 // indirect
-	github.com/mattn/go-sqlite3 v1.14.8 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-	gorm.io/driver/sqlite v1.1.4 // indirect
-	gorm.io/gorm v1.21.12 // indirect
+	github.com/gin-gonic/gin v1.7.2
+	github.com/lib/pq v1.6.0 // indirect
+	gorm.io/driver/postgres v1.1.0
+	gorm.io/gorm v1.21.13
 )
